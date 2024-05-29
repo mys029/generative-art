@@ -75,13 +75,9 @@ sample_canva <- function(seed = NULL) {
 ```
 
 ```{r}
-dat <- sample_data(n = 5000, seed = 2, z=10) 
-pal <- sample_canva(seed = 8)
+dat <- sample_data(n = 5000, seed = 1, z = 1) 
+pal <- sample_canva(seed = 17)
 
-p <- polar_styled_plot(data = dat, palette = pal) + geom_segment()
-plot_build <- ggplot_build(p)
-plot_build[["layout"]][["panel_params"]][[1]][["r.range"]]
-plot_build[["layout"]][["panel_params"]][[1]][["r.range"]][2] <- 2
-plot2 <- ggplot_gtable(plot_build)
-plot(plot2)
+polar_styled_plot(data = dat, palette = pal) + geom_segment()
+
 ```
