@@ -1,7 +1,21 @@
 ---
 title: "Generative Art"
 author: "Dylan Li"
-format: html
+format: 
+  html:
+    theme: 
+      light: flatly
+    page-layout: article
+    code-fold: true
+    self-contained: true
+    code-tools: true
+    toc: true
+execute:
+  echo: true
+  error: true
+  message: false
+  warning: false
+embed-resources: true
 editor: visual
 ---
 
@@ -11,7 +25,35 @@ editor: visual
 library(ggplot2)
 library(tibble)
 library(dplyr)
+library(RColorBrewer)
 ```
+
+## First Piece
+
+### Color Selection
+
+```{r}
+sample_canva <- function(seed = NULL) {
+  if(!is.null(seed)) set.seed(seed)
+  sample(ggthemes::canva_palettes, 1)[[1]]
+}
+```
+
+### Ephemeral Wings
+
+```{r}
+pal <- sample_canva(seed = 104)
+
+quakes |>
+  ggplot(aes(x = long, y = lat, colour = depth, size = mag)) + 
+  geom_point(show.legend = FALSE) + 
+  theme_void() +
+  scale_colour_gradientn(colours = pal)
+```
+
+A pair of wings made by numerous dots of varying sizes, almost void of color.
+
+The seed determines the color palette for the image, and the color is determined by the depth of the earthquake.
 
 ## Second Piece
 
@@ -31,6 +73,8 @@ sample_data <- function(seed = NULL, n = 100, z = 1){
   )
 }
 ```
+
+### Plotting
 
 ```{r}
 polar_styled_plot <- function(data = NULL, palette) {
@@ -67,12 +111,7 @@ polar_styled_plot <- function(data = NULL, palette) {
 }
 ```
 
-```{r}
-sample_canva <- function(seed = NULL) {
-  if(!is.null(seed)) set.seed(seed)
-  sample(ggthemes::canva_palettes, 1)[[1]]
-}
-```
+## Shrimp
 
 ```{r}
 dat <- sample_data(n = 5000, seed = 1, z = 1) 
@@ -81,3 +120,8 @@ pal <- sample_canva(seed = 17)
 polar_styled_plot(data = dat, palette = pal) + geom_segment()
 
 ```
+
+A lone, shrimp like spiral made of uncountably many bars.
+
+
+The data generation generates a vector in sequential order at a set interval. The width of the interval is determined by the z parameter, the larger it is, the more times the art will spiral. A choice of 5000 bars were used to make the visual more appealing, as a lesser amount of bars makes it less compact and less interesting.
